@@ -3,3 +3,5 @@ Clone Github - full JS website
 
 
 Hello from develop branch
+
+Hello from master github-clone online project
