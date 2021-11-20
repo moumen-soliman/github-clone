@@ -47,14 +47,14 @@ var reposArr = [
 
 function userInfoFunc({name, bio, image, username}) {
     const userInfoContainer = `
-    <div class="user-card-image">
-        <img src="${image}" />
-    </div>
-    <div class="user-card-info">
-        <h1>${name}</h1>
-        <p>${username}</p>
-        <span>${bio}</span>
-    </div>
+        <div class="user-card-image">
+            <img src="${image}" />
+        </div>
+        <div class="user-card-info">
+            <h1>${name}</h1>
+            <p>${username}</p>
+            <span>${bio}</span>
+        </div>
     `;
     return userInfoContainer;
 }
@@ -77,13 +77,14 @@ function followersFunc({follower, following, starsCount}) {
 
 function userMainInfoFunc({location, email, link: {title, href}}) {
     const userMainInfoHandler = `
-    <span>${location}</span>
-    <a href="mailto:${email}">${email}</a>
-    <a href="${href}" target="_blank">${title}</a>
+        <span>${location}</span>
+        <a href="mailto:${email}">${email}</a>
+        <a href="${href}" target="_blank">${title}</a>
     `
 
     return userMainInfoHandler;
 }
 
+userMainInfoFunc(userMainInfo)
 followersFunc(followersHandler)
 userInfoFunc(userInfo)
