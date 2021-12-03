@@ -23,7 +23,8 @@ var userMainInfo = {
 var organization = [
     {
         name: "baims",
-        private: true,
+        private: false,
+        link: '#',
         image: "https://avatars.githubusercontent.com/u/8783891?s=64&v=4"
     }
 ];
@@ -85,6 +86,52 @@ function userMainInfoFunc({location, email, link: {title, href}}) {
     return userMainInfoHandler;
 }
 
+function reposArrHandler(reposElements) {
+    reposElements.map((elem, index) => {
+        var repoCard = `<div class="repo-card index-number-${index}">
+        <h3>
+            <a>
+                ${elem.name}
+            </a>
+            ${elem.public && `<span class="repo-status-label">
+                Public
+            </span>`}
+        </h3>
+        <p>
+            ${elem.text}
+        </p>
+        <div class="card-topics">
+            ${elem.topics.map(elemTopic => `<span>
+            ${elemTopic.name}
+        </span>`)}
+        </div>
+        <div class="card-time-lang-details">
+            <span>
+                ${elem.language}
+            </span>
+            <span>
+                ${elem.updateTime}
+            </span>
+        </div>
+    </div>`
+
+        document.querySelector('.repos-container').innerHTML += repoCard
+    })
+}
+
+function orgHandler(orgElemnt) {
+    orgElemnt.map((elem, index) => {
+        var organizationCard = !elem.private ? `
+        <a class="index-number-${index}" href="${elem.link}">
+            <img src="${elem.image}" alt="${elem.name} image" />
+        </a>` : ''
+        ;
+        document.querySelector('.org-container').innerHTML += organizationCard;
+    })
+}
+
 userMainInfoFunc(userMainInfo)
 followersFunc(followersHandler)
 userInfoFunc(userInfo)
+reposArrHandler(reposArr)
+orgHandler(organization)
