@@ -1,4 +1,4 @@
-var calcArray = [1, 4, 5, 20, 10, 30, 50, 60];
+/** var calcArray = [1, 4, 5, 20, 10, 30, 50, 60];
 
 var animals = ["lion", "tiger", "dog"];
 
@@ -65,4 +65,4 @@ while (sumPlus < 20) {
 do {
     sumPlus++;
     console.log(sumPlus)
-} while (sumPlus < 20)
+} while (sumPlus < 20) **/
