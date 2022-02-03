@@ -73,8 +73,8 @@ const generateAgeCaller = generateAge("moumen")
 */
 
 // Hoisting
-helloWorld()
+// helloWorld()
 
-const helloWorld =() => {
-    console.log("hello world")
-}
+// const helloWorld = () => {
+//     console.log("hello world")
+// }
