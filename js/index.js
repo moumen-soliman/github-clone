@@ -1,137 +1,23 @@
-var userInfo = {
-    name: "Moumen Soliman",
-    username: "moumen-soliman",
-    bio: "Frontend Engineer",
-    image: "https://avatars.githubusercontent.com/u/24474287?v=4"
-};
+import {fetchURL, getGithubAPI} from "../Utils/index.js";
+import {userInfoFunc, userMainInfoFunc, followersFunc, orgHandler, reposArrHandler} from "../Utils/DOM-helpers.js";
 
-var followersHandler = {
-    follower: 77,
-    following: 234,
-    starsCount: 149
-};
+let currentUserData = {};
+var currentUserReposData = null;
 
-var userMainInfo = {
-    location: "Egypt",
-    email: "moumensoliman@gmail.com",
-    link: {
-        title: "Github Link",
-        href: "#"
-    }
-};
+document.querySelector(".hide-during-process").getElementsByClassName.display ="block"
 
-var organization = [
-    {
-        name: "baims",
-        private: false,
-        link: '#',
-        image: "https://avatars.githubusercontent.com/u/8783891?s=64&v=4"
-    }
-];
+getGithubAPI("airbnb").then(res => res.json()).then(res => {
+    currentUserData = res;
 
-var reposArr = [
-    {
-        name: "repo-name",
-        text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestiae cupiditate totam similique iusto, quo aperiam odit animi fugiat harum nostrum officia eveniet nemo explicabo, ex blanditiis optio, in est ab.",
-        language: "JavaScript",
-        updateTime: "Updated 1 hour ago",
-        public: true,
-        topics: [{
-            name: "JavaScript",
-            link: "#"
-        },{
-            name: "React",
-            link: "#"
-        }]
-    }
-]
-
-function userInfoFunc({name, bio, image, username}) {
-    const userInfoContainer = `
-        <div class="user-card-image">
-            <img src="${image}" />
-        </div>
-        <div class="user-card-info">
-            <h1>${name}</h1>
-            <p>${username}</p>
-            <span>${bio}</span>
-        </div>
-    `;
-    return userInfoContainer;
-}
-
-function followersFunc({follower, following, starsCount}) {
-    const followerHandler = `
-        <span>
-            ${follower} follower
-        </span>
-        <span>
-            ${following} following
-        </span>
-        <span>
-            ${starsCount} stars
-        </span>
-    `
-
-    return followerHandler;
-}
-
-function userMainInfoFunc({location, email, link: {title, href}}) {
-    const userMainInfoHandler = `
-        <span>${location}</span>
-        <a href="mailto:${email}">${email}</a>
-        <a href="${href}" target="_blank">${title}</a>
-    `
-
-    return userMainInfoHandler;
-}
-
-function reposArrHandler(reposElements) {
-    reposElements.map((elem, index) => {
-        var repoCard = `<div class="repo-card index-number-${index}">
-        <h3>
-            <a>
-                ${elem.name}
-            </a>
-            ${elem.public && `<span class="repo-status-label">
-                Public
-            </span>`}
-        </h3>
-        <p>
-            ${elem.text}
-        </p>
-        <div class="card-topics">
-            ${elem.topics.map(elemTopic => `<span>
-            ${elemTopic.name}
-        </span>`)}
-        </div>
-        <div class="card-time-lang-details">
-            <span>
-                ${elem.language}
-            </span>
-            <span>
-                ${elem.updateTime}
-            </span>
-        </div>
-    </div>`
-
-        document.querySelector('.repos-container').innerHTML += repoCard
+    userInfoFunc(res)
+    followersFunc(res)
+    userMainInfoFunc(res)
+}).then(() => {
+    fetchURL(currentUserData.repos_url).then(res => res.json()).then(resRepos => {
+        reposArrHandler(resRepos)
     })
-}
-
-function orgHandler(orgElemnt) {
-    orgElemnt.map((elem, index) => {
-        var organizationCard = !elem.private ? `
-        <a class="index-number-${index}" href="${elem.link}">
-            <img src="${elem.image}" alt="${elem.name} image" />
-        </a>` : ''
-        ;
-        document.querySelector('.org-container').innerHTML += organizationCard;
+}).then(() => {
+    fetchURL(currentUserData.organizations_url).then(res => res.json()).then(orgRepos => {
+        orgHandler(orgRepos)
     })
-}
-
-userMainInfoFunc(userMainInfo)
-followersFunc(followersHandler)
-userInfoFunc(userInfo)
-reposArrHandler(reposArr)
-orgHandler(organization)
+}).finally(() =>   document.querySelector(".hide-during-process").style.display ="none")

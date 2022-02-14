@@ -1,0 +1,1 @@
+fetch("https://joke-api-strict-cors.appspot.com/random_joke")
